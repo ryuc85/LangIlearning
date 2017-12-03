@@ -1,11 +1,8 @@
+// If you want to use the functions which declared in struct_sample.rs, write this.
+mod struct_sample;
+
 fn main() {
     println!("Hello, world!");
-}
-
-// Declare a new struct
-struct User {
-    username: String,
-    email: String,
-    sign_in_count: u64,
-    active: bool,
+    // Call the run function and execute the sample of struct.
+    struct_sample::run_sample();
 }
