@@ -11,14 +11,36 @@ defmodule CommandLine.CLI do
   If you run it, this function will be execute.
   """
   def main(args \\ []) do
+    unless IO.ANSI.enabled?() do
+      Application.put_env(:command_line, :ansi_enabled, true)
+    end
+    IO.write(IO.ANSI.clear())
+    IO.write(IO.ANSI.home())
+    {:ok, pid} = StringIO.open("")
+    quit = read_line(IO.read(:line), pid)
+    IO.write(quit)
     IO.puts("Hello world!")
     # Let print and see which the args is like.
     # There is a list of args. Like this ["hello", "world"]
+
+
+
     args
     |> parse_args
 
     # Next we will make a application that get the argumant output or input and the file path.
     # If output is true we will output to a file which to the filepath, else we will read it.
+  end
+
+  def read_line(":q\n", str) do
+    "Quit"
+  end
+
+  def read_line(line, str) do
+    IO.write(IO.ANSI.clear_line())
+    IO.write(str, line)
+    IO.write(IO.read(str, :all))
+    read_line(IO.read(:line), str)
   end
 
   @doc """
